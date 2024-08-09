@@ -7,6 +7,13 @@ static class ActorCollector
 {
     public static IEnumerable<Actor> CollectVanillaActors()
     {
+    Check:
+        if (!File.Exists(Totk.Config.ZsDicPath)) {
+            Console.WriteLine("Please enter your TotK game path:");
+            Totk.Config.GamePath = Console.ReadLine() ?? string.Empty;
+            goto Check;
+        }
+
         string actorsDirectory = Path.Combine(Totk.Config.GamePath, "Pack", "Actor");
 
         if (!Directory.Exists(actorsDirectory)) {
