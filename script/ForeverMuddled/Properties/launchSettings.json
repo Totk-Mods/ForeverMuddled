@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ForeverMuddled": {
+      "commandName": "Project",
+      "workingDirectory": "..\\..\\"
+    }
+  }
+}
