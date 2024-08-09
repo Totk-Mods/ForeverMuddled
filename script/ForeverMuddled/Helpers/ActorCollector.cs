@@ -11,7 +11,7 @@ static class ActorCollector
 
         if (!Directory.Exists(actorsDirectory)) {
             throw new Exception(message: $"""
-                The Actors directory '{actorsDirectory}' could not be found.
+                The vanilla Actors directory '{actorsDirectory}' could not be found.
                 """);
         }
 
