@@ -14,7 +14,7 @@ static class InputHelper
 
         mode = arg[0] switch {
             '+' => MuddleMode.Add,
-            '*' => MuddleMode.Multiply,
+            '*' or 'x' => MuddleMode.Multiply,
             _ => MuddleMode.Set,
         };
 
