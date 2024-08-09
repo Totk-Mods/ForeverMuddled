@@ -54,6 +54,7 @@ class Actor
             return false;
         }
 
+    Retry:
         if (!_actorPack.TryGetValue(conditionRef, out ArraySegment<byte> conditionParamData)) {
             Console.WriteLine(value: $"""
                 The referenced ConditionParam '{conditionRef}' could not be found in the actor '{_actorName}'
@@ -65,7 +66,12 @@ class Actor
         BymlMap param = conditionParam.GetMap();
 
         if (!param.TryGetValue("IsConfusion", out Byml? isConfusion) || isConfusion.GetBool() is false) {
-            return false;
+            if (TryGetParentRef(param) is not string parentRef) {
+                return false;
+            }
+
+            conditionRef = parentRef;
+            goto Retry;
         }
 
         if (!param.TryGetValue("ConfusionDelay", out Byml? oldMuddleValue)) {
@@ -106,22 +112,30 @@ class Actor
                 return true;
             }
 
-            if (!actorParamRoot.TryGetValue("$parent", out Byml? parentRefNode)) {
+            if (TryGetParentRef(actorParamRoot) is not string parentRef) {
                 break;
             }
 
-            string parentRef = parentRefNode.GetString()[5..];
-
-            // Skip Resident Actor
-            if (parentRef is "Actor/FarActorTemplate.engine__actor__ActorParam.gyml") {
-                break;
-            }
-
-            parentRef = Path.ChangeExtension(parentRef, "bgyml");
             actorParamData = _actorPack[parentRef];
         }
 
         conditionRef = default;
         return false;
+    }
+
+    private string? TryGetParentRef(BymlMap map)
+    {
+        if (!map.TryGetValue("$parent", out Byml? parentRefNode)) {
+            return null;
+        }
+
+        string parentRef = parentRefNode.GetString()[5..];
+
+        // Skip Resident Actor
+        if (parentRef is "Actor/FarActorTemplate.engine__actor__ActorParam.gyml") {
+            return null;
+        }
+
+        return Path.ChangeExtension(parentRef, "bgyml");
     }
 }
