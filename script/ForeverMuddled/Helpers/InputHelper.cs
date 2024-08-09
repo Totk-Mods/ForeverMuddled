@@ -12,6 +12,10 @@ static class InputHelper
             return float.PositiveInfinity;
         }
 
+        if (arg is ".inf" or "∞") {
+            arg = float.PositiveInfinity.ToString();
+        }
+
         mode = arg[0] switch {
             '+' => MuddleMode.Add,
             '*' or 'x' => MuddleMode.Multiply,
