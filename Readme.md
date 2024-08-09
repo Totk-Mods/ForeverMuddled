@@ -6,6 +6,8 @@ A TotK mod that makes every enemy stay muddled forever.
 
 # Usage
 
+* Requires the .NET 8.0 SDK.
+
 ## Windows
 
 ```powershell
@@ -22,4 +24,4 @@ cd "ForeverMuddled" && \
 ./muddle.sh
 ```
 
-To make custom enemies forever muddled, copy the actorpacks into the `custom` folder and they will be 
+To make custom enemies forever muddled, copy the actorpacks into the `custom` folder and they will be muddled when running the script.
